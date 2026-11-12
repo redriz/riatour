@@ -8,9 +8,9 @@ function e($value): string
 function view(string $name, array $data = []): void
 {
     extract($data);
-    require __DIR__ . '/views/layout/header.php';
-    require __DIR__ . '/views/$name.php';
-    require __DIR__ . '/views/layout/footer.php';
+    require __DIR__ . "/views/layout/header.php";
+    require __DIR__ . "/views/$name.php";
+    require __DIR__ . "/views/layout/footer.php";
 }
 
 function redirect(string $url): void
