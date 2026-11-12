@@ -5,9 +5,7 @@
     </a>
 </div>
 
-<!-- Pesquisa -->
-<form method="get" class="row g-2 mb-3">
-    <input type="hidden" name="page" value="boats">
+<form method="post" action="index.php?page=boats" class="row g-2 mb-3">
     <div class="col-md-6">
         <input type="text" name="search" value="<?= e($search) ?>" class="form-control" placeholder="Pesquisar por nome...">
     </div>
@@ -24,7 +22,6 @@
     </div>
 </form>
 
-<!-- Tabela -->
 <table class="table table-bordered bg-white align-middle table-ria">
     <thead>
         <tr>
