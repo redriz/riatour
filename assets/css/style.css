@@ -1,0 +1,16 @@
+body { background: #ececec; }
+
+.sidebar { width: 260px; background: #0753af; color: #fff; }
+.sidebar .logo {
+    width: max-content; padding: .3rem .6rem;
+    border: 4px solid #00e5ff; color: #fff;
+    font-size: 2rem; font-weight: 800; line-height: 1;
+}
+.sidebar .nav-link { color: #fff; border-radius: .375rem; }
+.sidebar .nav-link:hover { background: rgba(255, 255, 255, .1); }
+.sidebar .nav-link.active { background: #28a2e0; }
+
+.table-ria thead th { --bs-table-bg: #0753af; --bs-table-color: #fff; text-align: center; }
+
+.stat-card { background: #28a2e0; color: #fff; }
+.stat-card .value { font-size: 4rem; font-weight: 300; }
