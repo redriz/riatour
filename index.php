@@ -9,6 +9,10 @@ switch ($controllerName) {
         require_once 'app/controllers/ClientController.php';
         $controller = new ClientController();
         break;
+    case 'route':
+        require_once 'app/controllers/RouteController.php';
+        $controller = new RouteController();
+        break;
     case 'boat':
         require_once 'app/controllers/BoatController.php';
         $controller = new BoatController();
