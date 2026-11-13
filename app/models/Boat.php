@@ -1,47 +1,72 @@
 <?php
 class Boat
 {
-    public static function all(string $search = '', string $status = ''): array
+    private $conn;
+    private $table = 'boat';
+
+    public function __construct($db)
     {
-        $sql = 'SELECT * FROM boat WHERE name LIKE ?';
-        $params = ["%$search%"];
+        $this->conn = $db;
+    }
 
+    // Listar barcos, com pesquisa por nome e filtro por estado
+    public function getAll($search, $status)
+    {
+        $query = "SELECT * FROM " . $this->table . " WHERE name LIKE :search";
         if ($status !== '') {
-            $sql .= ' AND is_available = ?';
-            $params[] = $status;
+            $query .= " AND is_available = :status";
         }
+        $query .= " ORDER BY id";
 
-        $stmt = Database::connect()->prepare($sql . ' ORDER BY name');
-        $stmt->execute($params);
+        $stmt = $this->conn->prepare($query);
+        $search = "%$search%";
+        $stmt->bindParam(':search', $search);
+        if ($status !== '') {
+            $stmt->bindParam(':status', $status);
+        }
+        $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public static function find(int $id): ?array
+    // Obter um barco pelo ID
+    public function getById($id)
     {
-        $stmt = Database::connect()->prepare('SELECT * FROM boat WHERE id = ?');
-        $stmt->execute([$id]);
-        return $stmt->fetch() ?: null;
+        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 
-    public static function create(array $data): void
+    // Inserir novo barco
+    public function create($name, $capacity, $is_available)
     {
-        $stmt = Database::connect()->prepare(
-            'INSERT INTO boat (name, capacity, is_available) VALUES (?, ?, ?)'
-        );
-        $stmt->execute([$data['name'], $data['capacity'], $data['is_available']]);
+        $query = "INSERT INTO " . $this->table . " (name, capacity, is_available) VALUES (:name, :capacity, :is_available)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':capacity', $capacity);
+        $stmt->bindParam(':is_available', $is_available);
+        return $stmt->execute();
     }
 
-    public static function update(int $id, array $data): void
+    // Atualizar barco
+    public function update($id, $name, $capacity, $is_available)
     {
-        $stmt = Database::connect()->prepare(
-            'UPDATE boat SET name = ?, capacity = ?, is_available = ? WHERE id = ?'
-        );
-        $stmt->execute([$data['name'], $data['capacity'], $data['is_available'], $id]);
+        $query = "UPDATE " . $this->table . " SET name = :name, capacity = :capacity, is_available = :is_available WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':capacity', $capacity);
+        $stmt->bindParam(':is_available', $is_available);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
-    
-    public static function delete(int $id): void
+
+    // Eliminar barco
+    public function delete($id)
     {
-        $stmt = Database::connect()->prepare('DELETE FROM boat WHERE id = ?');
-        $stmt->execute([$id]);
+        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
 }

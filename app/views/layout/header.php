@@ -3,11 +3,11 @@ $current = $_GET['page'] ?? 'dashboard';
 
 $menu = [
     'dashboard' => 'Dashboard',
-    'bookings'  => 'Reservas',
-    'clients'   => 'Clientes',
-    'routes'    => 'Rotas',
-    'boats'     => 'Barcos',
-    'tours'     => 'Passeios',
+    'booking'   => 'Reservas',
+    'client'    => 'Clientes',
+    'route'     => 'Rotas',
+    'boat'      => 'Barcos',
+    'tour'      => 'Passeios',
 ];
 ?>
 
@@ -41,11 +41,10 @@ $menu = [
         </aside>
 
         <main class="flex-grow-1 p-5">
-            <?php if (!empty($_SESSION['flash'])): ?>
-                <?php $flash = $_SESSION['flash'];
-                unset($_SESSION['flash']); ?>
-                <div class="alert alert-<?= e($flash['type']) ?> alert-dismissible fade show">
-                    <?= e($flash['message']) ?>
+            <?php if (isset($_SESSION['msg'])): ?>
+                <div class="alert alert-<?= $_SESSION['msg']['tipo'] ?> alert-dismissible fade show">
+                    <?= $_SESSION['msg']['texto'] ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
+                <?php unset($_SESSION['msg']); ?>
             <?php endif; ?>

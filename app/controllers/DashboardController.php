@@ -1,10 +1,22 @@
 <?php
-require_once __DIR__ . '/../models/Dashboard.php';
+require_once 'config/Database.php';
 
 class DashboardController
 {
-    public function index(): void
+    private $db;
+
+    public function __construct()
     {
-        view('dashboard/index', ['stats' => Dashboard::stats()]);
+        $database = new Database();
+        $this->db = $database->connect();
+    }
+
+    public function index()
+    {
+        $reservasAtivas    = $this->db->query("SELECT COUNT(*) FROM booking WHERE status <> 'cancelada'")->fetchColumn();
+        $totalPassageiros  = $this->db->query("SELECT SUM(passengers) FROM booking WHERE status <> 'cancelada'")->fetchColumn();
+        $barcosDisponiveis = $this->db->query("SELECT COUNT(*) FROM boat WHERE is_available = 1")->fetchColumn();
+
+        require 'app/views/dashboard/index.php';
     }
 }

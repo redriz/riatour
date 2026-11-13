@@ -1,13 +1,15 @@
+<?php require 'app/views/layout/header.php'; ?>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="fw-bold m-0">Listagem de barcos</h1>
-    <a href="index.php?page=boats&action=create" class="btn btn-success">
+    <a href="index.php?page=boat&action=create" class="btn btn-success">
         <i class="bi bi-plus-lg"></i> Adicionar barco
     </a>
 </div>
 
-<form method="post" action="index.php?page=boats" class="row g-2 mb-3">
+<form method="post" action="index.php?page=boat" class="row g-2 mb-3">
     <div class="col-md-6">
-        <input type="text" name="search" value="<?= e($search) ?>" class="form-control" placeholder="Pesquisar por nome...">
+        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" class="form-control" placeholder="Pesquisar por nome...">
     </div>
     <div class="col-md-3">
         <select name="status" class="form-select">
@@ -18,7 +20,7 @@
     </div>
     <div class="col-md-3 d-flex gap-2">
         <button class="btn btn-primary"><i class="bi bi-search"></i> Pesquisar</button>
-        <a href="index.php?page=boats" class="btn btn-outline-secondary">Limpar</a>
+        <a href="index.php?page=boat" class="btn btn-outline-secondary">Limpar</a>
     </div>
 </form>
 
@@ -42,7 +44,7 @@
         <?php foreach ($boats as $boat): ?>
             <tr>
                 <td class="text-center"><?= $boat['id'] ?></td>
-                <td><?= e($boat['name']) ?></td>
+                <td><?= htmlspecialchars($boat['name']) ?></td>
                 <td><?= $boat['capacity'] ?> passageiros</td>
                 <td>
                     <?php if ($boat['is_available']): ?>
@@ -52,14 +54,15 @@
                     <?php endif; ?>
                 </td>
                 <td class="text-center text-nowrap">
-                    <a href="index.php?page=boats&action=show&id=<?= $boat['id'] ?>" class="btn btn-sm btn-outline-primary" title="Ver">
+                    <a href="index.php?page=boat&action=show&id=<?= $boat['id'] ?>" class="btn btn-sm btn-outline-primary" title="Ver">
                         <i class="bi bi-eye"></i>
                     </a>
-                    <a href="index.php?page=boats&action=edit&id=<?= $boat['id'] ?>" class="btn btn-sm btn-outline-warning" title="Editar">
+                    <a href="index.php?page=boat&action=edit&id=<?= $boat['id'] ?>" class="btn btn-sm btn-outline-warning" title="Editar">
                         <i class="bi bi-pencil"></i>
                     </a>
-                    <form method="post" action="index.php?page=boats&action=delete&id=<?= $boat['id'] ?>" class="d-inline"
+                    <form method="post" action="index.php?page=boat&action=delete" class="d-inline"
                         onsubmit="return confirm('Tem a certeza que pretende eliminar este barco?')">
+                        <input type="hidden" name="id" value="<?= $boat['id'] ?>">
                         <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
@@ -67,3 +70,5 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<?php require 'app/views/layout/footer.php'; ?>

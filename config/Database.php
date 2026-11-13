@@ -1,21 +1,15 @@
 <?php
-
 class Database
 {
-    private static ?PDO $pdo = null;
-    public static function connect(): PDO
+    private $host = 'localhost';
+    private $db   = 'bdRiaTour_AdonaiRodriguez_C27';
+    private $user = 'root';
+    private $pass = '';
+
+    public function connect()
     {
-        if (self::$pdo === null) {
-            self::$pdo = new PDO(
-                'mysql:host=localhost;dbname=bdRiaTour_AdonaiRodriguez_C27;charset=utf8mb4',
-                'root',
-                '',
-                [
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                ]
-            );
-        }
-        return self::$pdo;
+        $conn = new PDO("mysql:host=$this->host;dbname=$this->db;charset=utf8mb4", $this->user, $this->pass);
+        $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $conn;
     }
 }
