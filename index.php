@@ -5,6 +5,10 @@ $controllerName = $_GET['page'] ?? 'dashboard';
 $action = $_GET['action'] ?? 'index';
 
 switch ($controllerName) {
+    case 'client':
+        require_once 'app/controllers/ClientController.php';
+        $controller = new ClientController();
+        break;
     case 'boat':
         require_once 'app/controllers/BoatController.php';
         $controller = new BoatController();

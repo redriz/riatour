@@ -1,15 +1,17 @@
 <?php
+require_once 'config/Database.php';
+
 class Boat
 {
     private $conn;
     private $table = 'boat';
 
-    public function __construct($db)
+    public function __construct()
     {
-        $this->conn = $db;
+        $database = new Database();
+        $this->conn = $database->connect();
     }
 
-    // Listar barcos, com pesquisa por nome e filtro por estado
     public function getAll($search, $status)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE name LIKE :search";
@@ -28,7 +30,6 @@ class Boat
         return $stmt->fetchAll();
     }
 
-    // Obter um barco pelo ID
     public function getById($id)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
@@ -38,7 +39,6 @@ class Boat
         return $stmt->fetch();
     }
 
-    // Inserir novo barco
     public function create($name, $capacity, $is_available)
     {
         $query = "INSERT INTO " . $this->table . " (name, capacity, is_available) VALUES (:name, :capacity, :is_available)";
@@ -49,7 +49,6 @@ class Boat
         return $stmt->execute();
     }
 
-    // Atualizar barco
     public function update($id, $name, $capacity, $is_available)
     {
         $query = "UPDATE " . $this->table . " SET name = :name, capacity = :capacity, is_available = :is_available WHERE id = :id";
@@ -61,7 +60,6 @@ class Boat
         return $stmt->execute();
     }
 
-    // Eliminar barco
     public function delete($id)
     {
         $query = "DELETE FROM " . $this->table . " WHERE id = :id";

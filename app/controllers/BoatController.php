@@ -1,17 +1,13 @@
 <?php
-require_once 'config/Database.php';
 require_once 'app/models/Boat.php';
 
 class BoatController
 {
-    private $db;
     private $boatModel;
 
     public function __construct()
     {
-        $database = new Database();
-        $this->db = $database->connect();
-        $this->boatModel = new Boat($this->db);
+        $this->boatModel = new Boat();
     }
 
     // Listar + pesquisar (o formulário de pesquisa envia por POST)
